@@ -1,7 +1,8 @@
-import detectwhitechar
+import makebox
+
 import os.path
 
-folder = 'E:\\2MP\\'
+folder = 'E:\\hh\\'
 total = 0
 match = 0
 for f in os.listdir(folder):
@@ -15,9 +16,10 @@ for f in os.listdir(folder):
 			ext[0] = 1
 	print ext
 	if ext[1] == 'jpg' or ext[1] == 'JPG':
-		match += detectwhitechar.detect(folder + f)
+		match += makebox.detect(folder + f)
 		# print match
 		# print total
 
 per = float(match)/float(total) * 100
 print str(per) + "%"
+#check p quantity fie2drawing = np.zeros((h,w_t), np.uint8)print section

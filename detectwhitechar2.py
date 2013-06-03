@@ -14,7 +14,7 @@ def detect(filename):
 	dbf1 = dbf.Dbf('E:\\database\\SEGMENT.dbf', new=False)
 
 	img = cv2.imread(filename)
-	img = cv2.medianBlur(img, 9) #smothing image
+	img = cv2.medianBlur(img, 5) #smothing image
 
 	
 	# # looking for laser points
@@ -22,8 +22,7 @@ def detect(filename):
 	# redres = cv2.inRange(tar, RED_MIN, RED_MAX)
 	# redcon,h = cv2.findContours(redres, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-	drawing = np.zeros(img.shape, np.uint8)
-
+	
 	# x_cord = []
 	# y_cord = []
 
@@ -52,41 +51,83 @@ def detect(filename):
 
 	# extracting white characters
 	imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-	(r,c) = imgray.shape
+	print imgray.shape
+	(h,w) = imgray.shape
 	adder = 0
 	count = 0
-	# for i in range(r):
-	# 	for j in range(c):
-	# 		if imgray[i,j] > 120:
-	# 			adder += imgray[i,j]
-	# 			count += 1
-	# avg = adder/count
-	# print avg
-	avg = 120
-	ret,thresh = cv2.threshold(imgray, 0, 255, cv2.THRESH_OTSU)
-	
-	contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-	cv2.drawContours(drawing, contours, -1, (255,255,255), -1)
 
-	# removing noise
-	for cnt in contours:
-		if cv2.contourArea(cnt) < 900:
-			cv2.drawContours(drawing, [cnt], -1, (0,0,0), -1)
+	#spliting image
+	spacing = w/2
+	# sec1 = np.zeros((h,spacing), np.uint8)
+	# sec2 = np.zeros((h,spacing), np.uint8)
+	# sec3 = np.zeros((h,spacing), np.uint8)
+	# sec4 = np.zeros((h,spacing), np.uint8)
+	# sec5 = np.zeros((h,spacing), np.uint8)
+	# sections = [sec1,sec2, sec3,sec4,sec5]
+	x = 0
+	y = 0
+	x1 = spacing
+	y1 = h
+	sections = []
+	sections_empty = []
+	count = 0
+	while count < 2:
+		# i = np.zeros(())
+		i = imgray[y:y1, x:x1]
+		x += spacing
+		x1 += spacing
+		sections.append(i)
+		count += 1
+		sections_empty.append(np.zeros((h, spacing), np.uint8))
+		
+		cv2.imshow('win1', sections[count-1])
+		cv2.waitKey()
+	#####
+		avg = 120
+		ret,thresh = cv2.threshold(sections[count -1], 0, 255, cv2.THRESH_OTSU)
+		# thresh = cv2.adaptiveThreshold(imgray,240,cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY,89,1)
+		cv2.imshow('win1', thresh)
+		cv2.waitKey()
 
+		contours, hierarchy = cv2.findContours(thresh,cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+		cv2.drawContours(sections_empty[count-1], contours, -1, (255,255,255), -1)
 
-	drawing = cv2.resize(drawing, (250,40))
+		# removing noise
+		for cnt in contours:
+			if cv2.contourArea(cnt) < 300:
+				cv2.drawContours(sections_empty[count-1], [cnt], -1, (0,0,0), -1)
+
+	# drawing = cv2.resize(drawing, (40,200))
 
 	# save image
+	w_t = 0
+	for i in sections_empty:
+		h,w = i.shape
+		w_t += w
+	drawing = np.zeros((h,w_t), np.uint8)
+	w1 = 0
+	w_t = 0
+	for i in sections_empty:
+		h,w = i.shape[:2]
+		w_t += w
+		drawing[:h , w1:w_t] = i
+		w1 = w_t
+
+	cv2.medianBlur(drawing, 15)
+	cv2.imshow('win1', drawing)
+	cv2.waitKey()
+
+	drawing = cv2.resize(drawing, (250,40))
 	cv2.imwrite('E:\Results\\res.jpg', drawing)
 
 	# character recorgnition
 	image = cv.LoadImage("E:\Results\\res.jpg", cv.CV_LOAD_IMAGE_GRAYSCALE)
 	# cv.ShowImage('win', image)
-	lang = ['enm']
+	lang = ['eng']
 	result = 0
 	for i in lang:
-		data = pytesser.iplimage_to_string(image, i, pytesser.PSM_SINGLE_WORD) 
-
+		data = pytesser.iplimage_to_string(image, i, pytesser.PSM_SINGLE_LINE, digit = 1) 
+		print data
 	# text editing
 		lan = i
 		id = ""

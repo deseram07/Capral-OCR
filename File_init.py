@@ -6,8 +6,8 @@ mylist = []
 today = datetime.date.today()
 mylist.append(today)
 
-ftp = FTP('130.102.86.16', 'pi', 'raspberry')
-ftp.cwd('./sap/SAP/control')
+ftp = FTP('10.204.12.89', 'pi', 'raspberry')
+ftp.cwd('./sap/control')
 
 # setting up init file
 f = open('capture.txt', 'w')

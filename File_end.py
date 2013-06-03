@@ -2,8 +2,8 @@ from ftplib import FTP
 import datetime
 import sys
 
-ftp = FTP('130.102.86.16', 'pi', 'raspberry')
-ftp.cwd('./sap/SAP/control')
+ftp = FTP('10.204.12.89', 'pi', 'raspberry')
+ftp.cwd('./sap/control')
 
 # setting up init file
 f = open('endcapture.txt', 'w')

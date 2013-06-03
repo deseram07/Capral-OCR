@@ -13,11 +13,11 @@ mylist = []
 today = datetime.date.today()
 mylist.append(today)
 
-ftp = FTP('130.102.86.16', 'pi', 'raspberry')
+ftp = FTP('10.204.12.89', 'pi', 'raspberry')
 today = str(mylist[0])
 print today
 
-ftp.cwd('/home/pi/sap/SAP/data/')
+ftp.cwd('/home/pi/sap/data/')
 
 files = ftp.nlst()
 print files
@@ -29,7 +29,8 @@ if today_files == []:
 	print "no files in folder"
 	sys.exit(0)
 today_files.sort()
-current = today_files[-1]
+# current = today_files[-1]
+current = '2013-06-03No7'
 print current
 
 home_dir = "E:\\Results\\" + today + "No" + str(folder)
@@ -45,7 +46,7 @@ while True:
 			
 		else:
 			sys.exit(1)
-current_dir = '~/sap/SAP/data/' + current + '/'
+current_dir = '~/sap/data/' + current + '/'
 ftp.cwd(current_dir)
 
 os.chdir(home_dir)
