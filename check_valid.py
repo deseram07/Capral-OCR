@@ -1,3 +1,7 @@
+#performs validation and corrects ID if possible
+#
+#Author: Buddhika De Seram
+
 def check(id):
 	flag = 1
 	final = 0
