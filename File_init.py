@@ -1,3 +1,7 @@
+#initiates image capture in hand held device
+#
+#Author: Buddhika De Seram
+
 from ftplib import FTP 
 import datetime
 import sys
