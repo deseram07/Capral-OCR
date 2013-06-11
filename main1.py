@@ -1,10 +1,10 @@
-import makebox
+import report
 import os, errno
 import random
 from send_vertex import *
 from getdata import *
 
-folder = 'E:\\2MP\\'
+folder = 'E:\\Thesis\\'
 failed_name = 'fail'
 h = '\\'
 failed_folder = folder + failed_name + h
@@ -37,7 +37,7 @@ for f in os.listdir(folder):
 			ext[0] = 1
 
 	if ext[1] == 'jpg' or ext[1] == 'JPG':
-		id = makebox.detect(folder + f, failed_folder, total)
+		id = report.detect(folder + f, failed_folder, total)
 		# print "id = " + id
 		if id != None:
 			match.write(id + '\n')

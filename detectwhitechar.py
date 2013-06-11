@@ -51,8 +51,8 @@ def detect(filename):
 
 
 	# extracting white characters
-	imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-	(r,c) = imgray.shape
+	# imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+	(r,c) = image.shape
 	adder = 0
 	count = 0
 	# for i in range(r):

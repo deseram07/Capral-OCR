@@ -5,10 +5,11 @@ import cv2.cv as cv
 import string
 import sys
 from dbfpy import dbf
-from noise import *
+from noise1 import *
 import os
 from crop import *
 from check_valid import *
+import time
 
 RED_MIN = np.array((150,100,200))
 RED_MAX = np.array((160,240,255))
@@ -19,9 +20,9 @@ def detect(filename, folder, file_no):
 	img = cv2.medianBlur(img, 1) #smothing image
 
 	# extracting white characters
-	image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-	# imgray = crop(image)
-	imgray = image
+	image1 = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+	imgray = crop(image1)
+
 
 
 	imgray = cv2.resize(imgray, (800,150))
@@ -32,16 +33,23 @@ def detect(filename, folder, file_no):
 	drawing = noise(imgray, imgray.shape, 1000, 25000)
 
 	cv2.imshow('win1', drawing)
-	cv2.waitKey(1)
-	cv2.imwrite('E:\Results\\res.jpg', drawing)
+	cv2.waitKey()
+	cv2.imwrite('E:\\Results\\res.jpg', drawing)
 
 	# character recorgnition
 	image = cv.LoadImage("E:\Results\\res.jpg", cv.CV_LOAD_IMAGE_GRAYSCALE)
+	# cv2.imshow('image', image)
+	# cv2.waitKey()
+	cv.NamedWindow('image', cv.CV_WINDOW_AUTOSIZE)
+	cv.ShowImage('image', image)
+	cv.WaitKey()
 	lang = ['eng']
 	result = 0
 	for i in lang:
-		data = pytesser.iplimage_to_string(image, i, pytesser.PSM_SINGLE_LINE,makebox=True)
-	# print data
+		data = pytesser.iplimage_to_string(image, 'eng', pytesser.PSM_SINGLE_LINE,makebox=True)
+
+	print data
+	
 	word = ''
 	section = []	#all the characters and coordinates in a list
 	line = []
@@ -85,9 +93,7 @@ def detect(filename, folder, file_no):
 	point = []
 	for i in chars:
 		cv2.rectangle(drawing,(i[0],i[1]),(i[2],i[3]),(255,255,255),2)
-	cv2.imshow('rec', drawing)
-	cv2.waitKey(1)
-	cv2.imwrite('E:\\report\\res.jpg', drawing)
+
 	counter = 0
 	line_coordinates = [0]
 	if len(chars) == 1:
@@ -110,11 +116,10 @@ def detect(filename, folder, file_no):
 			point = []
 		if counter == len(chars):
 			
-			if img_w - i[2] < 150:
+			if img_w - i[2] > 50:
 				line_coordinates.append(img_w)
 			else:
 				line_coordinates.append(i[2])
-				line_coordinates.append(img_w)
 			cv2.line(drawing,(i[2],img_h),(i[2],0),(255,255,255),2)
 	
 	# spliting image and processing
@@ -126,15 +131,13 @@ def detect(filename, folder, file_no):
 		roi = imgray[0:img_h, line_coordinates[iterator-1]:line_coordinates[iterator]]
 		iterator += 1
 		corrected = noise(roi, roi.shape, 300, 10000)
-		cv2.imwrite('E:\Results\\res.jpg', corrected)
+		cv2.imwrite('E:\\report\\res.jpg', corrected)
 		cv2.imshow('win1', corrected)
 		cv2.waitKey()
 		image = cv.LoadImage("E:\Results\\res.jpg", cv.CV_LOAD_IMAGE_GRAYSCALE)
-		data = pytesser.iplimage_to_string(image, 'enm', 7 )
-		# print data
+		data = pytesser.iplimage_to_string(image, 'eng', 7 )
+		print data
 		for i in data:
-			if i == '!':
-				i = '1'
 			if i.isalpha() or i.isdigit():
 				if i == 'O' or i =='o':
 					i = '0'
@@ -144,15 +147,11 @@ def detect(filename, folder, file_no):
 					i = '1'
 				id = id + i
 
-	# print id
-	if id != '':
-		print id
-		sol = check(id)
-		final = sol[0]
-		alternative = sol[1]
-		possible = sol[2]
-	else:
-		return None
+	print id
+	sol = check(id)
+	final = sol[0]
+	alternative = sol[1]
+	possible = sol[2]
 	# print sol
 	
 	if not final:
@@ -169,5 +168,4 @@ def detect(filename, folder, file_no):
 			f.close()
 		return None
 	else:
-
 		return possible

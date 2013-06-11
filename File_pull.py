@@ -28,10 +28,14 @@ for i in files:
 if today_files == []:
 	print "no files in folder"
 	sys.exit(0)
+
+# read latest file
 today_files.sort()
-# current = today_files[-1]
-current = '2013-06-03No7'
+today_files.sort(key=lambda tup: tup[-1])
+current = today_files[-1]
 print current
+# current = '2013-06-03No7'
+# print current
 
 home_dir = "E:\\Results\\" + today + "No" + str(folder)
 
@@ -55,7 +59,8 @@ if ftp.nlst() != []:
 		cmd = 'RETR ' + filename
 		image  = open(filename, 'wb')
 		ftp.retrbinary(cmd, image.write)
-		print filename
+		return filename
+
 else:
-	print "No files"
-	# os.removedirs(home_dir)
+	os.rmdir(home_dir)
+	return None

@@ -13,7 +13,6 @@ for rec in dbf1:
 			counter += 1
 			if i.isalpha() or i.isdigit():
 				f.write(i)
-				# print i
 			if len(rec['P_CODE']) == counter:
 				f.write('\n')
 f.close()
