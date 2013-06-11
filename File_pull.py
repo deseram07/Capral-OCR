@@ -1,3 +1,6 @@
+# Extracts images from handheld device from the lastest folder created in device
+#
+#Author: Buddhika De Seram
 from ftplib import FTP 
 import datetime
 import sys
