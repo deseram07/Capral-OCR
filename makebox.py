@@ -1,3 +1,7 @@
+#this program performs the actual image processing and recognition
+#
+#Author: Buddhika De Seram
+
 import cv2
 import numpy as np
 import pytesser
@@ -96,6 +100,7 @@ def detect(filename, folder, file_no):
 				line_coordinates.append(i[0]/2)
 				line_coordinates.append(i[0])
 
+# for debugging, draws box using coordinates received from make box function
 	for i in chars:
 		counter += 1
 		if c == 0:
