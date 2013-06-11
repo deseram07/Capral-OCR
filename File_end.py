@@ -1,3 +1,7 @@
+# sends end signal to hand held device for end image capture
+#
+#Author: Buddhika De Seram
+
 from ftplib import FTP 
 import datetime
 import sys
