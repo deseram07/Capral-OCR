@@ -1,6 +1,8 @@
 #This program calls the main recognition program. Before doing so
 #the program makes the required folders to save the failes images
 #and the text file to save the correct images
+#
+#Author: Buddhika De Seram
 
 import makebox
 import os, errno
