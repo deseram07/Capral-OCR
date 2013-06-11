@@ -20,7 +20,7 @@ ftp = FTP('10.204.12.89', 'pi', 'raspberry')
 today = str(mylist[0])
 print today
 
-ftp.cwd('/home/pi/sap/data/')
+ftp.cwd('/home/pi/sap/data/') #folder where images are stored in device
 
 files = ftp.nlst()
 print files
@@ -37,10 +37,8 @@ today_files.sort()
 today_files.sort(key=lambda tup: tup[-1])
 current = today_files[-1]
 print current
-# current = '2013-06-03No7'
-# print current
 
-home_dir = "E:\\Results\\" + today + "No" + str(folder)
+home_dir = "E:\\Results\\" + today + "No" + str(folder) #dir in main computer to save file
 
 while True:
 	try:
@@ -49,13 +47,13 @@ while True:
 	except OSError, e:
 		if e.errno == errno.EEXIST:
 			folder += 1
-			home_dir = "E:\\Results\\" + today + "No" + str(folder)
-			
+			home_dir = "E:\\Results\\" + today + "No" + str(folder)	
 		else:
 			sys.exit(1)
 current_dir = '~/sap/data/' + current + '/'
 ftp.cwd(current_dir)
 
+#extracts all images in folder
 os.chdir(home_dir)
 if ftp.nlst() != []:
 	for filename in ftp.nlst():
