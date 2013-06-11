@@ -1,3 +1,6 @@
+#Obtains required region of interest from input image
+#
+#Author: Buddhika De Seram
 import cv2
 
 def crop(image):
