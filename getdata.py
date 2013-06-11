@@ -1,3 +1,8 @@
+#Extracts the ID's of dies which are out of the vertex library
+#from database file and saves in a text file
+#
+#Author: Buddhika De Seram
+
 from dbfpy import dbf
 import os
 
