@@ -1,18 +1,26 @@
+#This program calls the main recognition program. Before doing so
+#the program makes the required folders to save the failes images
+#and the text file to save the correct images
+
 import makebox
 import os, errno
 import random
 from send_vertex import *
 from getdata import *
 
-folder = 'E:\\2MP\\'
-failed_name = 'fail'
+folder = 'E:\\2MP\\' #folder where images are stored, this should not change because the images 
+						#will be processed as the main terminal receives them
+failed_name = 'fail'	#folder name to store failed images
 h = '\\'
 failed_folder = folder + failed_name + h
 total = 0
-match = open(folder+'match.txt', 'w')
+match = open(folder+'match.txt', 'w')	#text file name to store matched ID
 print "Extrating data from database"
-# getdata()
 
+getdata() #runs through database and extracts die ID's that are outside the vertex library
+
+
+#Creates new folder
 while True:
     try:
         os.mkdir(failed_folder)
@@ -40,7 +48,7 @@ for f in os.listdir(folder):
 		id = makebox.detect(folder + f, failed_folder, total)
 		# print "id = " + id
 		if id != None:
-			match.write(id + '\n')
+			match.write(id + '\n')	#writes matched die ID into text file
 			print "MATCHED " + id
 
 match.close()
@@ -48,6 +56,3 @@ match = open(folder+'match.txt', 'r')
 send(match)
 match.close()
 
-#check p quantity fie2drawing = np.zeros((h,w_t), np.uint8)print section
-
-#renaming will be done in folder
