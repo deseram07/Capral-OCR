@@ -6,9 +6,11 @@
 from dbfpy import dbf
 import os
 
-# def getdata():
-os.chdir('E:\\database')
-dbf1 = dbf.Dbf('E:\\database\\SEGMENT.dbf', new=False)
+# hardcode the location of database file in computer
+os.chdir('E:\\Code\\Capral-OCR\\database')	#switches to the location of the database file in the computer
+
+#hardcode the database file including the location 
+dbf1 = dbf.Dbf('E:\\Code\\Capral-OCR\\database\\SEGMENT.dbf', new=False)	#loading database file
 f = open('available.txt', 'w')
 counter = 0
 for rec in dbf1:
