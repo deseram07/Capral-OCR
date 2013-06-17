@@ -10,7 +10,7 @@ import random
 from send_vertex import *
 from getdata import *
 
-folder = 'E:\\2MP\\' #folder where images are stored, this should not change because the images 
+folder = 'E:\\afterthesis\\' #folder where images are stored, this should not change because the images 
 						#will be processed as the main terminal receives them
 failed_name = 'fail'	#folder name to store failed images
 h = '\\'
@@ -19,9 +19,9 @@ total = 0
 match = open(folder+'match.txt', 'w')	#text file name to store matched ID
 print "Extrating data from database"
 
-getdata() #runs through database and extracts die ID's that are outside the vertex library
+# getdata() #runs through database and extracts die ID's that are outside the vertex library
 
-
+print "Extraction complete	"
 #Creates new folder
 while True:
     try:
@@ -39,6 +39,7 @@ while True:
 for f in os.listdir(folder):
 	total += 1
 
+#checks whether files is an image
 	ext = [0,'']
 	for i in f:
 		if ext[0]:

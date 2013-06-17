@@ -24,11 +24,11 @@ def detect(filename, folder, file_no):
 
 	# extracting white characters
 	image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-	# imgray = crop(image)
-	imgray = image
+	imgray = crop(image)
+	# imgray = image
 
 
-	imgray = cv2.resize(imgray, (800,150))
+	imgray = cv2.resize(imgray, (880,100))
 	(h,w) = imgray.shape
 	(img_h,img_w) = (h,w)
 
@@ -36,7 +36,7 @@ def detect(filename, folder, file_no):
 	drawing = noise(imgray, imgray.shape, 1000, 25000)
 
 	cv2.imshow('win1', drawing)
-	cv2.waitKey(1)
+	cv2.waitKey()
 	cv2.imwrite('E:\Results\\res.jpg', drawing)
 
 	# character recorgnition
@@ -130,10 +130,10 @@ def detect(filename, folder, file_no):
 
 		roi = imgray[0:img_h, line_coordinates[iterator-1]:line_coordinates[iterator]]
 		iterator += 1
-		corrected = noise(roi, roi.shape, 300, 10000)
+		corrected = noise(roi, roi.shape, 300, 20000)
 		cv2.imwrite('E:\Results\\res.jpg', corrected)
 		cv2.imshow('win1', corrected)
-		cv2.waitKey()
+		cv2.waitKey(1)
 		image = cv.LoadImage("E:\Results\\res.jpg", cv.CV_LOAD_IMAGE_GRAYSCALE)
 		data = pytesser.iplimage_to_string(image, 'enm', 7 )
 		# print data
