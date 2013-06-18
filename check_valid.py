@@ -19,7 +19,7 @@ def check(id):
 
 			#list of possible solutions
 		no_matches = []		#count of how many matches in list possible
-		f = open('E:\\Code\\Capral-OCR\\database\\available.txt', 'r')
+		f = open('E:\\database\\available.txt', 'r')
 
 		data = f.readlines()
 		for i in data:
